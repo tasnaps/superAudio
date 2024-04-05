@@ -3,6 +3,9 @@ import numpy as np
 import scipy.signal
 import matplotlib.pyplot as plt
 from scipy.signal import resample
+from scipy.signal import butter, lfilter
+from scipy.io import wavfile
+import soundfile as sf
 
 
 # Function to convert audio into spectogram.
@@ -81,3 +84,41 @@ def apply_low_pass_filter(audio, sample_rate, cutoff_hz):
     audio_filtered = scipy.signal.lfilter(b, a, audio)
 
     return audio_filtered
+
+
+def preprocess_audio(file_path):
+    #Todo, might be an issue here in resampling audio, check functionality, if not working use audio_utils resampling instead
+    audio, sr = librosa.load(file_path, sr=None)
+
+    #placeholder for denoiser
+    #todo denoising algorithm
+    denoised_audio = denoise_audio(audio)
+
+    #match bitrate
+
+    if sr != 48000:
+        resampled_audio = librosa.resample(denoised_audio, orig_sr=sr, target_sr=48000)
+    else:
+        resampled_audio = denoised_audio
+
+    #save audio to a new file
+    output_path = "../storage/processed_audios/preprocessed_audio.wav"
+    sf.write(output_path, resampled_audio, 48000)
+
+    return output_path
+def butter_bandpass(lowcut, highcut, fs, order=5):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter(order, [low, high], btype='band')
+    return b, a
+
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+def denoise_audio(file_name, lowcut, highcut):
+    fs, data = wavfile.read(file_name)
+    y = butter_bandpass_filter(data, lowcut, highcut, fs)
+    return y
