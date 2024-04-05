@@ -20,7 +20,7 @@ def preprocess_audio(file_path):
         resampled_audio = denoised_audio
 
     #save audio to a new file
-    output_path = "../storage/preprocessed_audios/preprocessed_audio.wav"
+    output_path = "../storage/processed_audios/preprocessed_audio.wav"
     sf.write(output_path, resampled_audio, 16000)
 
     return output_path

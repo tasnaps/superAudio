@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 class ConvBlock(nn.Module):
+    #Perform manipulations on data using features of pyTorch
     def __init__(self, in_channels, out_channels, kernel_size=3, activation=nn.ReLU()):
         super(ConvBlock, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, padding=1)
@@ -12,6 +13,9 @@ class ConvBlock(nn.Module):
         return self.activation(self.batchnorm(self.conv(x)))
 
 class Encoder(nn.Module):
+    ##Contracting path of U-Net. Reduce spatian dimensionality, increase feature dimensionality
+    #Basicly several ConvBlock units that progressively refine data
+    # by repeatedly applying ConvBlock and MaxPool2d processes
     def __init__(self, channels):
         super(Encoder, self).__init__()
         self.enc_blocks = nn.ModuleList([
@@ -28,6 +32,11 @@ class Encoder(nn.Module):
         return block_outputs
 
 class Decoder(nn.Module):
+    ##The Decoder class represents the expansive path (decoder) of the U-Net.
+    # The decoder consists of up-convolutions
+    # or transposed convolutions (nn.ConvTranspose2d) and ConvBlock modules.
+    # The decoder function rotates through the transposed convolutions and ConvBlocks to add on to the features,
+    # propagating contextual information to higher resolution layers.
     def __init__(self, channels):
         super(Decoder, self).__init__()
         self.upconvs = nn.ModuleList([
@@ -46,6 +55,7 @@ class Decoder(nn.Module):
         return x
 
 class UNet(nn.Module):
+    #Main worker: apply encoder, run decoder on the output of encode, then final operation
     def __init__(self):
         super(UNet, self).__init__()
         channels = [1, 64, 128, 256, 512]
