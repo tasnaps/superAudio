@@ -1,13 +1,6 @@
 Todo:
-Spectogram conversion for audio files in storage folder.
-Model input and output formatting: resize spectograms to one size, normalize spectogram values, convert spectograms into pytorch tensors and splite into training and validation sets
 
-Training setup:
-Batch size: Choose batch size
-Optimizer and loss function: ...MSE?
-Learning rate: Recommended at 1e-3 or 1e-4
-
-Training loop:
+Training loop (basic training loop done, with necessary steps for backpropagation and weight updating):
 load batch of spectograms of the lofi and hifi
 Forward propagate low quality spectograms through the U-net model
 Calculate the loss between models output and hifi spectrograms
