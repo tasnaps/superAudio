@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f86f1229-d814-460b-9bd6-b7e100ead075" name="Changes" comment="mainProcess.py will streamline the process of creating spectral images and feeding them into the model">
-      <change afterPath="$PROJECT_DIR$/app/datasetPreparation.py" afterDir="false" />
+    <list default="true" id="f86f1229-d814-460b-9bd6-b7e100ead075" name="Changes" comment="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'.">
+      <change afterPath="$PROJECT_DIR$/app/utils/nameIterator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testerFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/audioProcessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/datasetPreparation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/datasetPreparation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/mainProcess.py" beforeDir="false" afterPath="$PROJECT_DIR$/archive/mainProcess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/enhancement_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/enhancement_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/audio_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/audio_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,26 +64,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tester.executor&quot;: &quot;Run&quot;,
-    &quot;Python.testerFile.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tapio/PycharmProjects/superAudio/app.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.app.executor": "Run",
+    "Python.datasetPreparation.executor": "Run",
+    "Python.enhancement_model.executor": "Run",
+    "Python.nameIterator.executor": "Run",
+    "Python.tester.executor": "Run",
+    "Python.testerFile.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/tapio/PycharmProjects/superAudio/app.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Python.audioProcessing">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\archive" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.datasetPreparation">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="superAudio" />
       <option name="ENV_FILES" value="" />
@@ -121,6 +132,75 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="C:\Users\tapio\PycharmProjects\superAudio\audioProcessing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="datasetPreparation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="superAudio" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/datasetPreparation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="enhancement_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="superAudio" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app/models" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/models/enhancement_model.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="nameIterator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="superAudio" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/utils/nameIterator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -172,13 +252,19 @@
     <list>
       <item itemvalue="Flask server.superAudio" />
       <item itemvalue="Python.app" />
+      <item itemvalue="Python.enhancement_model" />
       <item itemvalue="Python.audioProcessing" />
+      <item itemvalue="Python.datasetPreparation" />
+      <item itemvalue="Python.nameIterator" />
       <item itemvalue="Python.tester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.audioProcessing" />
+        <item itemvalue="Python.datasetPreparation" />
+        <item itemvalue="Python.enhancement_model" />
+        <item itemvalue="Python.nameIterator" />
         <item itemvalue="Python.tester" />
+        <item itemvalue="Python.audioProcessing" />
       </list>
     </recent_temporary>
   </component>
@@ -205,7 +291,9 @@
       <workItem from="1713202694255" duration="635000" />
       <workItem from="1713340609542" duration="32000" />
       <workItem from="1713341724224" duration="37000" />
-      <workItem from="1716623243928" duration="1431000" />
+      <workItem from="1716623243928" duration="12408000" />
+      <workItem from="1716638568006" duration="254000" />
+      <workItem from="1716638834846" duration="4921000" />
     </task>
     <task id="LOCAL-00001" summary="Audio enhancement using U-Net convolutional network. WIP. Added basic Flask functionality, skeleton for audio structure...&#10;&#10;todo: sound denoising algorithm, train the model, obtain training data...">
       <option name="closed" value="true" />
@@ -231,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712346011927</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'.">
+      <option name="closed" value="true" />
+      <created>1716625618931</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716625618931</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,11 +348,15 @@
     <MESSAGE value="Audio enhancement using U-Net convolutional network. WIP. Added basic Flask functionality, skeleton for audio structure...&#10;&#10;todo: sound denoising algorithm, train the model, obtain training data..." />
     <MESSAGE value="Processing audio files into training data" />
     <MESSAGE value="mainProcess.py will streamline the process of creating spectral images and feeding them into the model" />
-    <option name="LAST_COMMIT_MESSAGE" value="mainProcess.py will streamline the process of creating spectral images and feeding them into the model" />
+    <MESSAGE value="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/superAudio$tester.coverage" NAME="tester Coverage Results" MODIFIED="1712341177185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$datasetPreparation.coverage" NAME="datasetPreparation Coverage Results" MODIFIED="1716643605568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/superAudio$enhancement_model.coverage" NAME="enhancement_model Coverage Results" MODIFIED="1716640568007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/models" />
     <SUITE FILE_PATH="coverage/superAudio$testerFile.coverage" NAME="testerFile Coverage Results" MODIFIED="1712343027609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$nameIterator.coverage" NAME="nameIterator Coverage Results" MODIFIED="1716633440919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/utils" />
     <SUITE FILE_PATH="coverage/superAudio$app.coverage" NAME="app Coverage Results" MODIFIED="1711909402853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

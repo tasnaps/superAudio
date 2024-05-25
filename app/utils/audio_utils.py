@@ -15,11 +15,17 @@ def convert_audio_to_spectogram(file_path, save_path=None):
     :param file_path: The path of the audio file to be converted.
     :return: The spectrogram of the audio file as a NumPy array.
     """
+    print(f"Loading audio from {file_path}")
     # Load the audio file
-    audio, sample_rate = librosa.load(file_path)
-
+    audio, sample_rate = librosa.load(file_path, sr=None)
+    print(f"Converting audio to spectrogram with sample_rate: {sample_rate}")
     # Convert the audio to a spectogram
     spectogram = librosa.amplitude_to_db(np.abs(librosa.stft(audio)), ref=np.max)
+
+    if not np.any(audio):
+        print(f"Warning: Loaded audio from {file_path} contains only zero values.")
+    print(
+        f"Audio converted to spectrogram, shape: {spectogram.shape}, min: {np.min(spectogram)}, max: {np.max(spectogram)}")
 
     #option to save the spectogram to a file
     if save_path:
@@ -27,6 +33,7 @@ def convert_audio_to_spectogram(file_path, save_path=None):
         librosa.display.specshow(spectogram, sr=sample_rate, x_axis='time', y_axis='log')
         plt.colorbar(format='%+2.0f dB')
         plt.title('Log-frequency power spectrogram')
+        print(f"Saving spectrogram image at: {save_path}")
         plt.savefig(save_path)
         plt.close()
 

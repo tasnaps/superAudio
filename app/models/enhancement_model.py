@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class ConvBlock(nn.Module):
     #Perform manipulations on data using features of pyTorch
@@ -47,10 +48,17 @@ class Decoder(nn.Module):
             for i in range(len(channels)-1)])
 
     def forward(self, x, enc_features):
-        for i in range(len(self.dec_blocks)):
+        for i in range(len(self.upconvs)):
             x = self.upconvs[i](x)
-            enc_feat = enc_features[-i-2]
-            x = torch.cat([x, enc_feat], dim=1)
+            # only execute if there's a matching feature map in enc_features
+            if i < len(enc_features):
+                enc_feat = enc_features[-i - 1]  # -1 to start the index from the end
+                if x.shape[2] != enc_feat.shape[2] or x.shape[3] != enc_feat.shape[3]:
+                    #adjust to match
+                    enc_feat = F.interpolate(enc_feat, size=(x.shape[2], x.shape[3]), mode='nearest')
+                print(x.shape)
+                print(enc_feat.shape)
+                x = torch.cat([x, enc_feat], dim=1)
             x = self.dec_blocks[i](x)
         return x
 
