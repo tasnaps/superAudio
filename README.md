@@ -1,4 +1,18 @@
 Audio Enhancement Tool (WIP)
 Overview
 
-This project is developing a deep learning-based tool to enhance audio quality by restoring lost high frequencies and improving bitrates and sample rates of audio files. It's particularly aimed at enhancing older recordings, like those from vinyl records, to match modern audio quality standards without altering the original essence.
+Idea here is to use U-net neural network similar to Eloi Moliner and Vesa Välimäki (http://research.spa.aalto.fi/publications/papers/icassp22-denoising/) to train a model to possibly restore high and low frequencies.
+There is a possibility to train another model furhter to enhance the music recordings by expanding the dynamics - especially if we are dealing with very compressed material.
+
+
+Currently what we have implemented:
+U-net implementation
+Conversion from audio to spectrograms.
+Audio utilities to modify HQ audio samples.
+
+Currently in progress:
+Spectrogram to model training
+
+TODO
+Model performance evaluation.
+Evaluation metrics and estimation on further training needs.
