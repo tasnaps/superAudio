@@ -16,3 +16,4 @@ Spectrogram to model training
 TODO
 Model performance evaluation.
 Evaluation metrics and estimation on further training needs.
+Validation set (prevent overfitting)
