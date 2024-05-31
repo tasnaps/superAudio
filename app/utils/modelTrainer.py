@@ -3,26 +3,36 @@ import torch
 import torch.nn as nn
 import numpy as np
 from torch.utils.data import Dataset
-from utils.audio_utils import convert_audio_to_spectogram
+from app.utils.audio_utils import convert_audio_to_spectogram
 from torch.utils.data import DataLoader
 import torch.optim as optim
 from skimage.transform import resize
-from archive.enhancement_model import UNet
+from app.models.unetmilesial.unet_model import UNet
+
+
+# Parameters for the UNet model and the DataLoader
+n_channels = 1 # number of input channels
+n_classes =  1# number of output classes
+bilinear = True  # use bilinear interpolation for upsampling
+batch_size = 16  # batch size for the DataLoader
+
+# Path for audio files and saving wandb
 low_quality_audio_dir = "app/storage/LowQualityAudios"
 high_quality_audio_dir = "app/storage/HighQualityAudios"
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = UNet().to(device)
-
-# MSE error for the loss
-criterion = nn.MSELoss()
-# Adam optimizer, you may need to finetune the learning rate depending upon your task
-optimizer = optim.Adam(model.parameters(), lr=0.001)
 spectrogram_dir = "D:/spectrograms"
 os.makedirs(spectrogram_dir, exist_ok=True)
 
 # Parameters for the spectrogram transform (you should adjust these values depending on your dataset)
 output_size = (128, 128)
+
+# Instantiate the UNet model and move it to the appropriate device
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = UNet(n_channels, n_classes, bilinear).to(device)
+
+# MSE error for the loss
+criterion = nn.MSELoss()
+# Adam optimizer, you may need to finetune the learning rate depending upon your task
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 
 class YourSpectrogramDataset(Dataset):
@@ -147,11 +157,9 @@ spectrogram_dataset = YourSpectrogramDataset(
     transform=transform
 )
 
-#dataloader for batching and shuffling
-spectrogram_dataloader = DataLoader(spectrogram_dataset, batch_size=16, shuffle=True, num_workers=0)
-sample_data = next(iter(spectrogram_dataloader))
-print(sample_data[0].shape)
-optimizer.zero_grad()
+# DataLoader for batching and shuffling
+spectrogram_dataloader = DataLoader(spectrogram_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
+
 num_epochs = 10
 
 for epoch in range(num_epochs):
@@ -160,16 +168,25 @@ for epoch in range(num_epochs):
         low_quality = low_quality.to(device)
         high_quality = high_quality.to(device)
 
+        # Forward pass
         outputs = model(low_quality)
 
+        # Compute loss
         loss = criterion(outputs, high_quality)
+
+        # Backpropagation
         loss.backward()
 
+        # Update weights
         optimizer.step()
+
+        # Reset gradients
         optimizer.zero_grad()
 
         running_loss += loss.item()
 
     running_loss /= len(spectrogram_dataloader)
     print(f"Epoch {epoch + 1}, Training Loss: {running_loss:.6f}")
+
+    # Save model state at the end of each epoch
     torch.save(model.state_dict(), f'unet_epoch_{epoch}.pth')

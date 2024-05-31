@@ -7,7 +7,7 @@ import numpy as np
 
 # Define your paths
 input_directory = 'storage/HighQualityAudios'
-output_directory = 'storage/processed_audios'
+output_directory = 'storage/LowQualityAudios'
 model_save_path = 'models/unet.pth'
 
 # Initialize the model

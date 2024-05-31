@@ -28,39 +28,37 @@ class Encoder(nn.Module):
         block_outputs = []
         for block in self.enc_blocks:
             x = block(x)
+            print(f'Encoder block output shape: {x.shape}')
             block_outputs.append(x)
             x = self.pool(x)
+            print(f'After pooling shape: {x.shape}')
         return block_outputs
 
 class Decoder(nn.Module):
-    ##The Decoder class represents the expansive path (decoder) of the U-Net.
-    # The decoder consists of up-convolutions
-    # or transposed convolutions (nn.ConvTranspose2d) and ConvBlock modules.
-    # The decoder function rotates through the transposed convolutions and ConvBlocks to add on to the features,
-    # propagating contextual information to higher resolution layers.
     def __init__(self, channels):
         super(Decoder, self).__init__()
         self.upconvs = nn.ModuleList([
-            nn.ConvTranspose2d(channels[i], channels[i+1], 2, stride=2)
-            for i in range(len(channels)-1)])
+            nn.ConvTranspose2d(channels[i], channels[i + 1], 2, stride=2)
+            for i in range(len(channels) - 1)])
         self.dec_blocks = nn.ModuleList([
-            ConvBlock(channels[i], channels[i+1])
-            for i in range(len(channels)-1)])
+            ConvBlock(channels[i] * 2, channels[i + 1])
+            for i in range(len(channels) - 1)])
 
     def forward(self, x, enc_features):
         for i in range(len(self.upconvs)):
             x = self.upconvs[i](x)
-            # only execute if there's a matching feature map in enc_features
-            if i < len(enc_features):
-                enc_feat = enc_features[-i - 1]  # -1 to start the index from the end
-                if x.shape[2] != enc_feat.shape[2] or x.shape[3] != enc_feat.shape[3]:
-                    #adjust to match
-                    enc_feat = F.interpolate(enc_feat, size=(x.shape[2], x.shape[3]), mode='nearest')
-                print(x.shape)
-                print(enc_feat.shape)
-                x = torch.cat([x, enc_feat], dim=1)
+            print(f'Decoder upconv output shape: {x.shape}')
+            enc_feat = enc_features[-i - 1]
+            print(f'Encoder feature shape before interpolation: {enc_feat.shape}')
+            if x.shape[2] != enc_feat.shape[2] or x.shape[3] != enc_feat.shape[3]:
+                enc_feat = F.interpolate(enc_feat, size=(x.shape[2], x.shape[3]), mode='nearest')
+            print(f'Encoder feature shape after interpolation: {enc_feat.shape}')
+            x = torch.cat([x, enc_feat], dim=1)#Erroneus concatenation size.
+            print(f'Concatenated shape: {x.shape}')
             x = self.dec_blocks[i](x)
+            print(f'After dec_block shape: {x.shape}')
         return x
+
 
 class UNet(nn.Module):
     #Main worker: apply encoder, run decoder on the output of encode, then final operation
@@ -75,3 +73,13 @@ class UNet(nn.Module):
         enc_features = self.encoder(x)
         dec_output = self.decoder(enc_features[-1], enc_features)
         return self.final_conv(dec_output)
+
+
+##Troubleshooting
+model = UNet()
+print(model)
+
+# Example input for testing
+input_tensor = torch.randn(1, 1, 256, 256)
+output_tensor = model(input_tensor)
+print(f'Output shape: {output_tensor.shape}')

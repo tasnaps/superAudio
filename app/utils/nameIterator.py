@@ -3,7 +3,7 @@ import glob
 from collections import defaultdict
 
 hq_dir = "C:/Users/tapio/PycharmProjects/superAudio/app/storage/HighQualityAudios"
-pq_dir = "C:/Users/tapio/PycharmProjects/superAudio/app/storage/processed_audios"
+pq_dir = "/app/storage/LowQualityAudios"
 
 # get list of all high-quality .flac audio paths
 hq_audio_paths = sorted(glob.glob(os.path.join(hq_dir, '*.flac')))

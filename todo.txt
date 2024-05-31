@@ -1,11 +1,1 @@
-Todo:
-
-Training loop (basic training loop done, with necessary steps for backpropagation and weight updating):
-load batch of spectograms of the lofi and hifi
-Forward propagate low quality spectograms through the U-net model
-Calculate the loss between models output and hifi spectrograms
-Backpropagate loss and update model weights
-Evaluate model on set of validation data to monitor it's performance and prevent overfitting.
-
-Model evaluation and iteration
-UseSNR or PESQ, and listen to audio samples of enhanced audio to see if improved or not...
+Validation set and test set creation.
