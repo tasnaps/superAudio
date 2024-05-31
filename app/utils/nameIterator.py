@@ -2,7 +2,7 @@ import os
 import glob
 from collections import defaultdict
 
-hq_dir = "C:/Users/tapio/PycharmProjects/superAudio/app/storage/HighQualityAudios"
+hq_dir = "/app/storage/ProcessedAudios/HighQualityAudios"
 pq_dir = "/app/storage/LowQualityAudios"
 
 # get list of all high-quality .flac audio paths

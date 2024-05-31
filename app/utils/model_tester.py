@@ -1,4 +1,4 @@
-from app.models.unetmilesial.unet_model import UNet  # replace 'your_module_directory' with the directory containing your U-Net code
+from app.utils.unetmilesial import UNet  # replace 'your_module_directory' with the directory containing your U-Net code
 import torch
 n_channels = 3 # number of input channels
 n_classes = 1 # number of output classes

@@ -1,3 +1,3 @@
 # Ignore all files in these directories
-app/storage/LowQualityAudios/*
-app/storage/HighQualityAudios/*
+app/storage/ProcessedAudios/LowQualityAudios/*
+app/storage/ProcessedAudios/HighQualityAudios/*

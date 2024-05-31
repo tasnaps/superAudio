@@ -142,8 +142,8 @@ class SpectogramTransform:
 transform = SpectogramTransform(output_size)
 
 spectrogram_dataset = YourSpectrogramDataset(
-    low_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/LowQualityAudios',
-    high_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/HighQualityAudios',
+    low_quality_audio_dir='/app/storage/ProcessedAudios/LowQualityAudios',
+    high_quality_audio_dir='/app/storage/ProcessedAudios/HighQualityAudios',
     transform=transform
 )
 

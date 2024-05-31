@@ -5,13 +5,24 @@ import librosa
 import random
 
 hq_audio_directory = 'app/storage/HighQualityAudios/'
-processed_audio_path = 'app/storage/LowQualityAudios/'
+processed_audio_path = 'app/storage/ProcessedAudios/LowQualityAudios/'
+evaluation_setHQ_path = 'app/storage/RawAudios/EvaluationSet/'
+evaluation_setLQ_path = 'app/storage/ProcessedAudios/EvaluationSetLQ/'
+
 if not os.path.isdir(hq_audio_directory):
     print(f"Error: {hq_audio_directory} directory does not exist.")
     exit(1)
 
 if not os.path.isdir(processed_audio_path):
     print(f"Error: {processed_audio_path} directory does not exist.")
+    exit(1)
+
+if not os.path.isdir(evaluation_setHQ_path):
+    print(f"Error: {evaluation_setHQ_path} directory does not exist.")
+    exit(1)
+
+if not os.path.isdir(evaluation_setLQ_path):
+    print(f"Error: {evaluation_setLQ_path} directory does not exist.")
     exit(1)
 
 print("Directories found")

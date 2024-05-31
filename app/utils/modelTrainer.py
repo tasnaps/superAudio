@@ -7,7 +7,7 @@ from app.utils.audio_utils import convert_audio_to_spectogram
 from torch.utils.data import DataLoader
 import torch.optim as optim
 from skimage.transform import resize
-from app.models.unetmilesial.unet_model import UNet
+from app.utils.unetmilesial import UNet
 
 
 # Parameters for the UNet model and the DataLoader
@@ -152,8 +152,8 @@ class SpectogramTransform:
 transform = SpectogramTransform(output_size)
 
 spectrogram_dataset = YourSpectrogramDataset(
-    low_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/LowQualityAudios',
-    high_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/HighQualityAudios',
+    low_quality_audio_dir='/app/storage/ProcessedAudios/LowQualityAudios',
+    high_quality_audio_dir='/app/storage/ProcessedAudios/HighQualityAudios',
     transform=transform
 )
 
