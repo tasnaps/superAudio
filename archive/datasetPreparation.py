@@ -159,15 +159,11 @@ for epoch in range(num_epochs):
     for i, (low_quality, high_quality) in enumerate(spectrogram_dataloader):
         low_quality = low_quality.to(device)
         high_quality = high_quality.to(device)
-
         outputs = model(low_quality)
-
         loss = criterion(outputs, high_quality)
         loss.backward()
-
         optimizer.step()
         optimizer.zero_grad()
-
         running_loss += loss.item()
 
     running_loss /= len(spectrogram_dataloader)

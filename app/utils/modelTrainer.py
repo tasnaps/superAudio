@@ -14,16 +14,16 @@ from app.utils.unetmilesial import UNet
 n_channels = 1 # number of input channels
 n_classes =  1# number of output classes
 bilinear = True  # use bilinear interpolation for upsampling
-batch_size = 16  # batch size for the DataLoader
+batch_size = 8  # batch size for the DataLoader
 
 # Path for audio files and saving wandb
-low_quality_audio_dir = "app/storage/LowQualityAudios"
-high_quality_audio_dir = "app/storage/HighQualityAudios"
+low_quality_audio_dir = "C:/Users/tapio/PycharmProjects/superAudio/app/storage/ProcessedAudios/LowQualityAudios"
+high_quality_audio_dir = "C:/Users/tapio/PycharmProjects/superAudio/app/storage/ProcessedAudios/HighQualityAudios"
 spectrogram_dir = "D:/spectrograms"
 os.makedirs(spectrogram_dir, exist_ok=True)
 
 # Parameters for the spectrogram transform (you should adjust these values depending on your dataset)
-output_size = (128, 128)
+output_size = (640, 640)
 
 # Instantiate the UNet model and move it to the appropriate device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -35,7 +35,7 @@ criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 
-class YourSpectrogramDataset(Dataset):
+class SpectrogramDataset(Dataset):
     def __init__(self, low_quality_audio_dir, high_quality_audio_dir, transform=None):
         self.low_quality_audio_dir = low_quality_audio_dir
         self.high_quality_audio_dir = high_quality_audio_dir
@@ -78,8 +78,8 @@ class YourSpectrogramDataset(Dataset):
         high_quality_spectrogram_np = high_quality_spectrogram.numpy()
         low_quality_spectrogram_np = low_quality_spectrogram.numpy()
 
-        high_quality_spectrogram = resize(high_quality_spectrogram_np[0], (128, 128))
-        low_quality_spectrogram = resize(low_quality_spectrogram_np[0], (128, 128))
+        high_quality_spectrogram = resize(high_quality_spectrogram_np[0], (640, 640))
+        low_quality_spectrogram = resize(low_quality_spectrogram_np[0], (640, 640))
 
         # Convert resized numpy arrays back to tensors and add channel dimension
         high_quality_spectrogram = torch.from_numpy(high_quality_spectrogram).unsqueeze(0).float()
@@ -151,9 +151,9 @@ class SpectogramTransform:
 
 transform = SpectogramTransform(output_size)
 
-spectrogram_dataset = YourSpectrogramDataset(
-    low_quality_audio_dir='/app/storage/ProcessedAudios/LowQualityAudios',
-    high_quality_audio_dir='/app/storage/ProcessedAudios/HighQualityAudios',
+spectrogram_dataset = SpectrogramDataset(
+    low_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/ProcessedAudios/LowQualityAudios',
+    high_quality_audio_dir='C:/Users/tapio/PycharmProjects/superAudio/app/storage/ProcessedAudios/HighQualityAudios',
     transform=transform
 )
 
@@ -167,22 +167,11 @@ for epoch in range(num_epochs):
     for i, (low_quality, high_quality) in enumerate(spectrogram_dataloader):
         low_quality = low_quality.to(device)
         high_quality = high_quality.to(device)
-
-        # Forward pass
         outputs = model(low_quality)
-
-        # Compute loss
         loss = criterion(outputs, high_quality)
-
-        # Backpropagation
         loss.backward()
-
-        # Update weights
         optimizer.step()
-
-        # Reset gradients
         optimizer.zero_grad()
-
         running_loss += loss.item()
 
     running_loss /= len(spectrogram_dataloader)

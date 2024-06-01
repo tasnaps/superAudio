@@ -39,6 +39,23 @@ def convert_audio_to_spectogram(file_path, save_path=None):
 
     return spectogram
 
+def convert_spectrogram_to_audio(spectrogram, sr=22050):
+    """
+    Converts a spectrogram back to an audio signal.
+
+    :param spectrogram: The spectrogram to convert back to audio.
+    :param sr: The sample rate for the returned audio. Default is 22050Hz.
+    :return: The audio signal.
+    """
+    # map the spectogram from the dB scale back to linear scale
+    # which is expected by the phase vocoder
+    S_inv = librosa.db_to_amplitude(spectrogram)
+
+    # apply the phase to the magnitude spectrogram
+    y = librosa.istft(S_inv)
+
+    return y
+
 def downsampler_two(audio, original_rate, target_rate):
     """
         Downsamples the given audio to the target sample rate using Scipy.
@@ -99,17 +116,17 @@ def preprocess_audio(file_path):
 
     #placeholder for denoiser
     #todo denoising algorithm
-    denoised_audio = denoise_audio(audio)
+    #denoised_audio = denoise_audio(audio)
 
     #match bitrate
 
     if sr != 48000:
-        resampled_audio = librosa.resample(denoised_audio, orig_sr=sr, target_sr=48000)
+        resampled_audio = librosa.resample(audio, orig_sr=sr, target_sr=48000)
     else:
-        resampled_audio = denoised_audio
+        resampled_audio = audio
 
     #save audio to a new file
-    output_path = "../storage/ProcessedAudios/LowQualityAudios/preprocessed_audio.wav"
+    output_path = "../storage/ProcessedAudios/preprocessed_audio.wav"
     sf.write(output_path, resampled_audio, 48000)
 
     return output_path
