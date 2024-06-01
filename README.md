@@ -13,6 +13,12 @@ Audio utilities to modify HQ audio samples.
 Currently in progress:
 Spectrogram to model training
 
+Notes: 
+Current audio is in mono format need to change to stereo
+Sounds quite bad
+
+
+
 TODO
 Model performance evaluation.
 Evaluation metrics and estimation on further training needs.
