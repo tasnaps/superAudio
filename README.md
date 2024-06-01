@@ -1,25 +1,7 @@
 Audio Enhancement Tool (WIP)
 Overview
 
-Idea here is to use U-net neural network similar to Eloi Moliner and Vesa Välimäki (http://research.spa.aalto.fi/publications/papers/icassp22-denoising/) to train a model to possibly restore high and low frequencies.
-There is a possibility to train another model furhter to enhance the music recordings by expanding the dynamics - especially if we are dealing with very compressed material.
+Trial of using U-net to try to restore high and low frequencies of music tracks. The outcome was something truly horrible and I wont we developing this further.
+The spectrogram conversion + putting tracks through the model, result in very artifacty sound (especially with a limited resources we have to train it).
 
-
-Currently what we have implemented:
-U-net implementation
-Conversion from audio to spectrograms.
-Audio utilities to modify HQ audio samples.
-
-Currently in progress:
-Spectrogram to model training
-
-Notes: 
-Current audio is in mono format need to change to stereo
-Sounds quite bad
-
-
-
-TODO
-Model performance evaluation.
-Evaluation metrics and estimation on further training needs.
-Validation set (prevent overfitting)
+Next up we are looking at other ways to restore lost sounds.
