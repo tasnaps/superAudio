@@ -11,7 +11,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = UNet(n_channels, n_classes, bilinear).to(device)
 
 # Load the weights from the .pth file
-trained_model_path = 'C:/Users/tapio/PycharmProjects/superAudio/app/storage/Epochs/unet_epoch_9.pth'
+trained_model_path = '//app/storage/Epochs/unet_epoch_9.pth'
 model.load_state_dict(torch.load(trained_model_path))
 model.eval()  # set the model to evaluation mode
 

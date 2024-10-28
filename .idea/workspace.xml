@@ -4,13 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f86f1229-d814-460b-9bd6-b7e100ead075" name="Changes" comment="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'.">
-      <change afterPath="$PROJECT_DIR$/app/utils/nameIterator.py" afterDir="false" />
+    <list default="true" id="f86f1229-d814-460b-9bd6-b7e100ead075" name="Changes" comment="Add Spectrogram-to-audio conversion and update model training/testing&#10;&#10;Added a method convert_spectrogram_to_audio to the audio utils. Updated model training and testing process in modelTrainer and model_tester, including changes in resizing the spectrogram, dataset class, and batch size. Also revised file paths to fit local configuration and moved datasetPreparation.py to the archive directory.">
+      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/superAudio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/liverSegmentation.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/datasetPreparation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/datasetPreparation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/mainProcess.py" beforeDir="false" afterPath="$PROJECT_DIR$/archive/mainProcess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/enhancement_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/enhancement_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/audio_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/audio_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/errors.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/audio_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/modelTrainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/model_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/nameIterator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/preprocessing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archive/datasetPreparation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archive/enhancement_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archive/mainProcess.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/audioProcessing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +54,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -64,37 +85,111 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.app.executor": "Run",
-    "Python.datasetPreparation.executor": "Run",
-    "Python.enhancement_model.executor": "Run",
-    "Python.nameIterator.executor": "Run",
-    "Python.tester.executor": "Run",
-    "Python.testerFile.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/tapio/PycharmProjects/superAudio/app.py",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.Dataset.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.datasetPreparation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enhancement_model.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.modelTrainer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.model_tester.executor&quot;: &quot;Run&quot;,
+    &quot;Python.nameIterator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plotting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tester.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testerFile.executor&quot;: &quot;Run&quot;,
+    &quot;Python.validation.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Image__segmentation&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tapio/Desktop&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\storage\labels" />
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\storage\validationDataset" />
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\storage\trainingDataset" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\models\Model2" />
       <recent name="C:\Users\tapio\PycharmProjects\superAudio\archive" />
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\utils" />
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\models" />
+      <recent name="C:\Users\tapio\PycharmProjects\superAudio\app\storage\ProcessedAudios" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.datasetPreparation">
+  <component name="RunManager" selected="Python.plotting">
+    <configuration default="true" type="DjangoTestsConfigurationType">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="superAudio" />
+      <module name="liverSegmentation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -117,8 +212,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="audioProcessing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="superAudio" />
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="liverSegmentation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -131,7 +226,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\tapio\PycharmProjects\superAudio\audioProcessing.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -140,8 +235,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="datasetPreparation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="superAudio" />
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="liverSegmentation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -149,12 +244,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/datasetPreparation.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\tapio\PycharmProjects\superAudio\main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -163,31 +258,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="enhancement_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="superAudio" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app/models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/models/enhancement_model.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="nameIterator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="superAudio" />
+    <configuration name="model_tester" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="liverSegmentation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -200,7 +272,30 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/utils/nameIterator.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/utils/model_tester.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plotting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plotting.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -210,7 +305,7 @@
       <method v="2" />
     </configuration>
     <configuration name="tester" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="superAudio" />
+      <module name="liverSegmentation" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -232,8 +327,22 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="Python.FlaskServer">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
     <configuration name="superAudio" type="Python.FlaskServer">
-      <module name="superAudio" />
+      <module name="liverSegmentation" />
       <option name="target" value="$PROJECT_DIR$/app.py" />
       <option name="targetType" value="PATH" />
       <option name="ENV_FILES" value="" />
@@ -249,22 +358,107 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Autodetect">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="liverSegmentation" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Flask server.superAudio" />
       <item itemvalue="Python.app" />
-      <item itemvalue="Python.enhancement_model" />
-      <item itemvalue="Python.audioProcessing" />
-      <item itemvalue="Python.datasetPreparation" />
-      <item itemvalue="Python.nameIterator" />
+      <item itemvalue="Python.main (1)" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.model_tester" />
+      <item itemvalue="Python.plotting" />
       <item itemvalue="Python.tester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.datasetPreparation" />
-        <item itemvalue="Python.enhancement_model" />
-        <item itemvalue="Python.nameIterator" />
+        <item itemvalue="Python.plotting" />
         <item itemvalue="Python.tester" />
-        <item itemvalue="Python.audioProcessing" />
+        <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.model_tester" />
       </list>
     </recent_temporary>
   </component>
@@ -293,7 +487,26 @@
       <workItem from="1713341724224" duration="37000" />
       <workItem from="1716623243928" duration="12408000" />
       <workItem from="1716638568006" duration="254000" />
-      <workItem from="1716638834846" duration="4921000" />
+      <workItem from="1716638834846" duration="5967000" />
+      <workItem from="1717066635456" duration="103000" />
+      <workItem from="1717066751846" duration="632000" />
+      <workItem from="1717068428335" duration="11552000" />
+      <workItem from="1717087509582" duration="3560000" />
+      <workItem from="1717142452230" duration="2991000" />
+      <workItem from="1717170865727" duration="4021000" />
+      <workItem from="1717179011492" duration="2946000" />
+      <workItem from="1717182054490" duration="218000" />
+      <workItem from="1717182338986" duration="119000" />
+      <workItem from="1717236256834" duration="6260000" />
+      <workItem from="1717243269715" duration="2892000" />
+      <workItem from="1717246644085" duration="3512000" />
+      <workItem from="1728374530821" duration="5153000" />
+      <workItem from="1728395316643" duration="13000" />
+      <workItem from="1728911647493" duration="2509000" />
+      <workItem from="1728981872634" duration="2005000" />
+      <workItem from="1728986931718" duration="497000" />
+      <workItem from="1728996711845" duration="11000" />
+      <workItem from="1730114772503" duration="681000" />
     </task>
     <task id="LOCAL-00001" summary="Audio enhancement using U-Net convolutional network. WIP. Added basic Flask functionality, skeleton for audio structure...&#10;&#10;todo: sound denoising algorithm, train the model, obtain training data...">
       <option name="closed" value="true" />
@@ -327,7 +540,39 @@
       <option name="project" value="LOCAL" />
       <updated>1716625618931</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="improve audio processing pipeline">
+      <option name="closed" value="true" />
+      <created>1716643926966</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716643926966</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changed U-Net model implementation and made audio quality enhancement&#10;&#10;Added U-Net model along with its units for audio quality enhancement, these include encoder, decoder, and final convolution. Updated audio processing, spectrogram transformation, and U-Net model training. Renamed directory 'processed_audios' to 'LowQualityAudios'. Added  print statements for debugging dimensions. The original 'enhancement_model' was moved to archive.">
+      <option name="closed" value="true" />
+      <created>1717176686119</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1717176686119</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Refactor directory structure and update path references&#10;&#10;The commit primarily involves reorganizing the directory structure and updating references to paths within the code. This includes moving model-related code from 'app/models' to 'app/utils' and renaming some directories for consistency. Additionally, an evaluation module has been added, for testing dataset performance metrics. All paths referencing old directories have been updated to reflect these changes.">
+      <option name="closed" value="true" />
+      <created>1717182003020</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1717182003020</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add Spectrogram-to-audio conversion and update model training/testing&#10;&#10;Added a method convert_spectrogram_to_audio to the audio utils. Updated model training and testing process in modelTrainer and model_tester, including changes in resizing the spectrogram, dataset class, and batch size. Also revised file paths to fit local configuration and moved datasetPreparation.py to the archive directory.">
+      <option name="closed" value="true" />
+      <created>1717257289876</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717257289876</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,7 +583,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Image_segmentation" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -349,14 +606,37 @@
     <MESSAGE value="Processing audio files into training data" />
     <MESSAGE value="mainProcess.py will streamline the process of creating spectral images and feeding them into the model" />
     <MESSAGE value="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor audio processing pipeline and update dependencies&#10;&#10;Updated the 'requirements.txt' file to add the necessary dependencies for the project. Renamed 'testerFile.py' to 'audioProcessing.py' for clarity. Also, improved the audio processing pipeline by introducing 'datasetPreparation.py' which converts audio files to spectrograms and prepares them for the model training. Some minor changes were also made in '.idea/workspace.xml' and 'enhancement_model.py'." />
+    <MESSAGE value="improve audio processing pipeline" />
+    <MESSAGE value="Changed U-Net model implementation and made audio quality enhancement&#10;&#10;Added U-Net model along with its units for audio quality enhancement, these include encoder, decoder, and final convolution. Updated audio processing, spectrogram transformation, and U-Net model training. Renamed directory 'processed_audios' to 'LowQualityAudios'. Added  print statements for debugging dimensions. The original 'enhancement_model' was moved to archive." />
+    <MESSAGE value="Refactor directory structure and update path references&#10;&#10;The commit primarily involves reorganizing the directory structure and updating references to paths within the code. This includes moving model-related code from 'app/models' to 'app/utils' and renaming some directories for consistency. Additionally, an evaluation module has been added, for testing dataset performance metrics. All paths referencing old directories have been updated to reflect these changes." />
+    <MESSAGE value="Update .gitignore with RawAudios directory&#10;&#10;Added the RawAudios directory in the app/storage directory to the .gitignore file for exclusion from being tracked by the git version control system. This helps to prevent accidental commit of raw audio files." />
+    <MESSAGE value="Update .gitignore with RawAudios directory&#10;&#10;Added model weights" />
+    <MESSAGE value="Add Spectrogram-to-audio conversion and update model training/testing&#10;&#10;Added a method convert_spectrogram_to_audio to the audio utils. Updated model training and testing process in modelTrainer and model_tester, including changes in resizing the spectrogram, dataset class, and batch size. Also revised file paths to fit local configuration and moved datasetPreparation.py to the archive directory." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Spectrogram-to-audio conversion and update model training/testing&#10;&#10;Added a method convert_spectrogram_to_audio to the audio utils. Updated model training and testing process in modelTrainer and model_tester, including changes in resizing the spectrogram, dataset class, and batch size. Also revised file paths to fit local configuration and moved datasetPreparation.py to the archive directory." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/archive/enhancement_model.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/superAudio$tester.coverage" NAME="tester Coverage Results" MODIFIED="1712341177185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/superAudio$datasetPreparation.coverage" NAME="datasetPreparation Coverage Results" MODIFIED="1716643605568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
-    <SUITE FILE_PATH="coverage/superAudio$enhancement_model.coverage" NAME="enhancement_model Coverage Results" MODIFIED="1716640568007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/models" />
+    <SUITE FILE_PATH="coverage/superAudio$tester.coverage" NAME="tester Coverage Results" MODIFIED="1728984484435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$datasetPreparation.coverage" NAME="datasetPreparation Coverage Results" MODIFIED="1717073488305" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/superAudio$plotting.coverage" NAME="plotting Coverage Results" MODIFIED="1728984804848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$enhancement_model.coverage" NAME="enhancement_model Coverage Results" MODIFIED="1717087964534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/models" />
+    <SUITE FILE_PATH="coverage/superAudio$Dataset.coverage" NAME="Dataset Coverage Results" MODIFIED="1728377822781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$modelTrainer.coverage" NAME="modelTrainer Coverage Results" MODIFIED="1717248110946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/utils" />
+    <SUITE FILE_PATH="coverage/superAudio$validation.coverage" NAME="validation Coverage Results" MODIFIED="1717083612693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/utils" />
     <SUITE FILE_PATH="coverage/superAudio$testerFile.coverage" NAME="testerFile Coverage Results" MODIFIED="1712343027609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/superAudio$nameIterator.coverage" NAME="nameIterator Coverage Results" MODIFIED="1716633440919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/utils" />
+    <SUITE FILE_PATH="coverage/superAudio$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1728984139533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/superAudio$model_tester.coverage" NAME="model_tester Coverage Results" MODIFIED="1717257011236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/utils" />
     <SUITE FILE_PATH="coverage/superAudio$app.coverage" NAME="app Coverage Results" MODIFIED="1711909402853" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
